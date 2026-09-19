@@ -342,57 +342,94 @@ details.more{margin-top:14px}
 details.more summary{cursor:pointer;font-family:Archivo;font-weight:700;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);list-style:none;display:inline-block;border:1px solid var(--ln);border-radius:100px;padding:10px 16px}
 details.more summary::-webkit-details-marker{display:none}
 
-/* ==================== navbar mobile first (hamburguer) ==================== */
-header .bar{padding:10px var(--pad);flex-wrap:nowrap;gap:10px}
-details.menu{position:relative}
-details.menu > summary{list-style:none;display:flex;align-items:center;gap:9px;cursor:pointer;
-  border:1px solid var(--ln);background:var(--pan);border-radius:100px;padding:9px 14px 9px 12px;
-  font-family:Archivo;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
-details.menu > summary::-webkit-details-marker{display:none}
-.burger{display:grid;gap:3.5px;width:16px}
-.burger i{display:block;height:2px;background:currentColor;border-radius:2px;transition:.2s}
-details.menu[open] > summary{border-color:var(--ac);color:var(--ac)}
-details.menu[open] .burger i:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
-details.menu[open] .burger i:nth-child(2){opacity:0}
-details.menu[open] .burger i:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
-details.menu > nav{position:absolute;right:0;top:calc(100% + 10px);z-index:70;min-width:min(66vw,240px);
-  background:#101013;border:1px solid var(--ln);border-radius:12px;padding:6px;
-  box-shadow:0 18px 44px rgba(0,0,0,.6)}
-details.menu > nav ul{display:block}
-details.menu > nav li{list-style:none}
-details.menu > nav a{display:block;width:100%;padding:12px 14px;border-radius:8px;border:0;
-  font-size:12px;letter-spacing:.14em}
-details.menu > nav a.on{background:rgba(255,90,46,.12)}
-@media (hover:hover){details.menu > nav a:hover{background:var(--pan);color:var(--ink)}}
-@media (min-width:860px){
-  details.menu > summary{display:none}
-  details.menu > nav{position:static;min-width:0;background:none;border:0;padding:0;box-shadow:none}
-  details.menu > nav ul{display:flex;gap:26px}
-  details.menu > nav a{padding:5px 0;border-radius:0;border-bottom:1px solid transparent;font-size:12.5px}
-  details.menu > nav a.on{background:none;border-bottom-color:var(--ac)}
-}
 
-/* ==================== carrosseis (mobile) ==================== */
-.raildots{display:none}
+/* ==================== navbar — hamburguer classico ==================== */
+header .bar{padding:10px var(--pad);flex-wrap:nowrap;gap:10px;position:relative}
+.navt{position:absolute;width:1px;height:1px;opacity:0;margin:0;pointer-events:none}
+.burger-btn{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;
+  border:1px solid var(--ln);background:var(--pan);cursor:pointer;transition:.2s;
+  -webkit-tap-highlight-color:transparent}
+.burger{position:relative;display:block;width:20px;height:14px}
+.burger i{position:absolute;left:0;width:100%;height:2px;background:var(--ink);border-radius:2px;transition:.25s ease}
+.burger i:nth-child(1){top:0}
+.burger i:nth-child(2){top:6px}
+.burger i:nth-child(3){top:12px}
+.navt:checked ~ .burger-btn{border-color:var(--ac);background:rgba(255,90,46,.1)}
+.navt:checked ~ .burger-btn .burger i{background:var(--ac)}
+.navt:checked ~ .burger-btn .burger i:nth-child(1){top:6px;transform:rotate(45deg)}
+.navt:checked ~ .burger-btn .burger i:nth-child(2){opacity:0;transform:scaleX(.2)}
+.navt:checked ~ .burger-btn .burger i:nth-child(3){top:6px;transform:rotate(-45deg)}
+.navt:focus-visible ~ .burger-btn{outline:2px solid var(--ac);outline-offset:3px}
+@media (hover:hover){.burger-btn:hover{border-color:var(--ac)}}
+.navscrim{display:none}
+
+@media (max-width:859px){
+  header nav{display:none;width:auto;position:absolute;right:var(--pad);top:calc(100% + 6px);z-index:70;
+    min-width:min(70vw,250px);background:#101013;border:1px solid var(--ln);border-radius:12px;
+    padding:6px;box-shadow:0 18px 44px rgba(0,0,0,.6)}
+  .navt:checked ~ nav{display:block}
+  .navt:checked ~ .navscrim{display:block;position:fixed;inset:0;z-index:69}
+  header nav ul{display:block}
+  header nav li{list-style:none}
+  header nav a{display:block;width:100%;padding:13px 14px;border-radius:8px;border:0;
+    font-size:12px;letter-spacing:.14em}
+  header nav a.on{background:rgba(255,90,46,.12)}
+}
+@media (min-width:860px){
+  .burger-btn,.navscrim{display:none}
+  header nav{width:auto}
+  header nav ul{display:flex;gap:26px;list-style:none}
+  header nav a{padding:5px 0;border-bottom:1px solid transparent;font-size:12.5px}
+  header nav a.on{border-bottom-color:var(--ac)}
+}
+/* ==================== carrossel — todas as larguras ==================== */
+.railwrap{position:relative}
+.rail{display:flex!important;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:12px;max-width:100vw;
+  scroll-snap-type:x mandatory;scroll-padding-left:var(--pad);
+  padding:2px var(--pad) 12px;margin-inline:calc(var(--pad) * -1);
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail > *{flex:0 0 78%;scroll-snap-align:start;min-width:0}
+.rail.g4 > *,.rail.pls > *{flex-basis:70%}
+.rail.g2 > *{flex-basis:86%}
+@media (min-width:620px){
+  .rail{gap:16px}
+  .rail > *{flex-basis:46%}
+  .rail.g4 > *,.rail.pls > *{flex-basis:32%}
+  .rail.g2 > *{flex-basis:48%}
+}
+@media (min-width:980px){
+  .rail{gap:18px;padding-bottom:14px;scroll-padding-left:0;margin-inline:0;padding-inline:0}
+  .rail > *{flex-basis:calc((100% - 36px)/3)}
+  .rail.g4 > *{flex-basis:calc((100% - 54px)/4)}
+  .rail.pls > *{flex-basis:calc((100% - 90px)/6)}
+  .rail.g2 > *{flex-basis:calc((100% - 18px)/2)}
+}
+/* controles */
+.railbar{display:flex;align-items:center;gap:8px;margin-top:2px;min-height:38px}
+.raildots{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.raildots span{width:6px;height:6px;border-radius:50%;background:var(--ln);transition:.2s}
+.raildots span.on{background:var(--ac);width:18px;border-radius:100px}
+.railcount{margin-left:auto;font-family:Archivo;font-weight:700;font-size:10.5px;letter-spacing:.14em;color:var(--mut);white-space:nowrap}
+.railnav{display:none;gap:8px;margin-left:10px}
+.railnav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:var(--pan);
+  color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s;padding:0}
+.railnav button:disabled{opacity:.3;cursor:default}
+.railnav button span{width:8px;height:8px;border-top:2px solid currentColor;border-right:2px solid currentColor;display:block}
+.railnav .prev span{transform:rotate(-135deg);margin-left:3px}
+.railnav .next span{transform:rotate(45deg);margin-right:3px}
+@media (hover:hover){.railnav button:not(:disabled):hover{border-color:var(--ac);color:var(--ac);transform:translateY(-2px)}}
+@media (min-width:980px){.railnav{display:flex}.raildots{display:none}}
+.rail:focus-visible{outline:2px solid var(--ac);outline-offset:4px}
 @media (max-width:759px){
-  .rail{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:12px;
-    scroll-snap-type:x mandatory;scroll-padding-left:var(--pad);
-    padding:2px var(--pad) 10px;margin-inline:calc(var(--pad) * -1);
-    -webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .rail::-webkit-scrollbar{display:none}
-  .rail > *{flex:0 0 78%;scroll-snap-align:start;min-width:0}
-  .rail.g4 > *,.rail.pls > *{flex-basis:70%}
-  .rail.g2 > *{flex-basis:86%}
-  .raildots{display:flex;align-items:center;gap:6px;margin-top:2px;padding-inline:2px}
-  .raildots span{width:6px;height:6px;border-radius:50%;background:var(--ln);transition:.2s}
-  .raildots span.on{background:var(--ac);width:18px;border-radius:100px}
-  .railcount{width:auto!important;height:auto!important;background:none!important;border-radius:0!important;
-    margin-left:auto;font-family:Archivo;font-weight:700;font-size:10.5px;letter-spacing:.14em;color:var(--mut)}
-  .rail:focus-visible{outline:2px solid var(--ac);outline-offset:4px}
-  /* sobre: foto menor no mobile pra pagina nao esticar */
   .biorow figure{aspect-ratio:16/11}
   .bio{gap:26px}
 }
-@media (max-width:859px){
-  details.menu:not([open]) > nav{display:none}
-}
+
+/* sets e episodios tambem em carrossel */
+.rail.tracks > *,.rail.eps > *{flex:0 0 84%}
+@media (min-width:620px){.rail.tracks > *,.rail.eps > *{flex-basis:48%}}
+@media (min-width:980px){.rail.tracks > *,.rail.eps > *{flex-basis:calc((100% - 36px)/3)}}
+.rail.tracks .track,.rail.eps .ep{height:100%}
+
+.railbar.is-static{display:none}
