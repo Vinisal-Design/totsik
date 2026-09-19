@@ -433,3 +433,9 @@ header .bar{padding:10px var(--pad);flex-wrap:nowrap;gap:10px;position:relative}
 .rail.tracks .track,.rail.eps .ep{height:100%}
 
 .railbar.is-static{display:none}
+
+/* Sobre — destaque de texto e recorte que preserva o rosto */
+.biorow img{object-position:var(--opd,50% 0%)}
+@media (max-width:759px){.biorow img{object-position:var(--opm,50% 20%)}}
+.btxt p b,.qtxt .prose b{font-weight:600;color:var(--ink)}
+.btxt p b{box-shadow:inset 0 -0.42em 0 rgba(255,90,46,.14)}
